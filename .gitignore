@@ -1,0 +1,10 @@
+*.class
+*.log
+
+*.jar
+*.zip
+*.tar.gz
+
+hs_err_pid*
+.idea
+target
