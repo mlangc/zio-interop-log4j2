@@ -18,38 +18,25 @@ import zio.internal.Executor
 
 import scala.collection.JavaConverters._
 
-class FiberAwareThreadContextMapTest extends FreeSpec with LoggingSupport with DefaultRuntime with BeforeAndAfter {
+class MdcLoggingTest extends FreeSpec with LoggingSupport with DefaultRuntime with BeforeAndAfter {
   before {
     MDC.clear()
-    System.setProperty("log4j2.threadContextMap", classOf[FiberAwareThreadContextMap].getCanonicalName)
+    System.setProperty("log4j2.ContextDataInjector", classOf[MDZIO].getCanonicalName)
     TestLog4j2Appender.reset()
   }
 
-  "Make sure we can log something" in {
-    MDC.put("a", "1")
-    MDC.put("b", "2")
-    MDC.put("c", "3")
-    logger.info("Hello world")
-  }
-
-  "Make sure we can log with ZIO" in {
+  "Make sure we can log using fiber aware MDC data" in {
     unsafeRun {
       newSingleThreadExecutor.use { exec =>
         for {
-          _ <- MDCIO.init
-          _ <- Task {
-            MDC.put("a", "1")
-            MDC.put("b", "2")
-            MDC.put("c", "3")
-          }
-
+          _ <- MDZIO.putAll("a" -> "1", "b" -> "2", "c" -> "3")
           _ <- logger.infoIO("Test")
           _ <- logger.infoIO("Test on other thread but same fiber").lock(exec)
           fiber1 <- {
-            UIO(MDC.put("c", "3*")) *> logger.infoIO("Test on child fiber1")
+            MDZIO.put("c", "3*") *> logger.infoIO("Test on child fiber1")
           }.fork
           fiber2 <- {
-            UIO(MDC.put("b", "2*")) *> logger.infoIO("Test on child fiber2")
+            MDZIO.put("b", "2*") *> logger.infoIO("Test on child fiber2")
           }.fork
           _ <- sleep(Duration.apply(10, TimeUnit.MILLISECONDS))
           _ <- logger.infoIO("Test on parent fiber")

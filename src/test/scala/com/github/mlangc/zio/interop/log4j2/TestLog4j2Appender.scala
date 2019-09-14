@@ -34,5 +34,4 @@ object TestLog4j2Appender {
     if (logEventsRef.compareAndSet(old, event :: old)) ()
     else appendEvent(event)
   }
-
 }
