@@ -1,6 +1,6 @@
 name := "zio-interop-log4j2"
 version := "0.1.0"
-scalaVersion := "2.12.9"
+scalaVersion := "2.12.10"
 
 val scala212Opts = Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
