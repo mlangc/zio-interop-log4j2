@@ -121,14 +121,18 @@ scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-wa
 val log4jVersion = "2.12.0"
 val silencerVersion = "1.4.3"
 
-libraryDependencies += "dev.zio" %% "zio" % "1.0.0-RC17+6-daa6ab98"
+val zioVersion = "1.0.0-RC17+6-daa6ab98"
+libraryDependencies += "dev.zio" %% "zio" % zioVersion
+libraryDependencies += "dev.zio" %% "zio-test" % zioVersion % Test
+
+libraryDependencies += "dev.zio" %% "zio-test-sbt" % zioVersion % Test
+testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 
 libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % log4jVersion
 libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % log4jVersion
 
 libraryDependencies += "org.apache.logging.log4j" % "log4j-slf4j-impl" % log4jVersion % Test
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % Test
-libraryDependencies += "com.github.mlangc" %% "slf4zio" % "0.2.1" % Test
+libraryDependencies += "com.github.mlangc" %% "slf4zio" % "0.3.0" % Test
 
 libraryDependencies ++= Seq(
   compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
