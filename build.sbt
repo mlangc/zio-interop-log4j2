@@ -121,7 +121,7 @@ scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-wa
 val log4jVersion = "2.12.0"
 val silencerVersion = "1.4.3"
 
-libraryDependencies += "dev.zio" %% "zio" % "1.0.0-RC12-1+56-7a10b638"
+libraryDependencies += "dev.zio" %% "zio" % "1.0.0-RC17+6-daa6ab98"
 
 libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % log4jVersion
 libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % log4jVersion

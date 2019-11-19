@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit
 import scala.concurrent.ExecutionContext
 import com.github.mlangc.slf4zio.api._
 import org.scalatest.BeforeAndAfter
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FreeSpec
 import org.slf4j.MDC
 import zio.DefaultRuntime
@@ -18,10 +19,14 @@ import zio.internal.Executor
 
 import scala.collection.JavaConverters._
 
-class MdcLoggingTest extends FreeSpec with LoggingSupport with DefaultRuntime with BeforeAndAfter {
+class MdcLoggingTest extends FreeSpec with LoggingSupport with DefaultRuntime with BeforeAndAfter with BeforeAndAfterAll {
+  protected override def beforeAll(): Unit = {
+    System.setProperty("log4j2.threadContextMap", classOf[FiberAwareThreadContextMap].getCanonicalName)
+    ()
+  }
+
   before {
     MDC.clear()
-    System.setProperty("log4j2.ContextDataInjector", classOf[MDZIO].getCanonicalName)
     TestLog4j2Appender.reset()
   }
 
@@ -29,6 +34,7 @@ class MdcLoggingTest extends FreeSpec with LoggingSupport with DefaultRuntime wi
     unsafeRun {
       newSingleThreadExecutor.use { exec =>
         for {
+          _ <- FiberAwareThreadContextMap.assertInitialized
           _ <- MDZIO.putAll("a" -> "1", "b" -> "2", "c" -> "3")
           _ <- logger.infoIO("Test")
           _ <- logger.infoIO("Test on other thread but same fiber").lock(exec)
