@@ -3,6 +3,7 @@ package com.github.mlangc.zio.interop.log4j2
 import java.util
 import java.util.concurrent.atomic.AtomicBoolean
 
+import org.apache.logging.log4j.ThreadContext
 import org.apache.logging.log4j.spi.ReadOnlyThreadContextMap
 import org.apache.logging.log4j.spi.ThreadContextMap
 import org.apache.logging.log4j.util.BiConsumer
@@ -16,6 +17,7 @@ import zio.ZIO
 import scala.collection.JavaConverters._
 
 class FiberAwareThreadContextMap extends ThreadContextMap with ReadOnlyThreadContextMap {
+
   import FiberAwareThreadContextMap.threadLocal
 
   def clear(): Unit = threadLocal.remove()
@@ -65,6 +67,9 @@ class FiberAwareThreadContextMap extends ThreadContextMap with ReadOnlyThreadCon
 }
 
 object FiberAwareThreadContextMap {
+
+  class InitializationError private[FiberAwareThreadContextMap](message: String) extends RuntimeException(message)
+
   @volatile
   private var threadLocal = new ThreadLocal[Map[String, String]] {
     override def initialValue(): Map[String, String] = Map.empty
@@ -72,13 +77,30 @@ object FiberAwareThreadContextMap {
 
   private val initialized = new AtomicBoolean(false)
 
-  def assertInitialized: UIO[Unit] =
+  /**
+   * Makes sure that fiber aware MDC logging is properly initialized
+   */
+  def assertInitialized: UIO[Unit] = {
     ZIO.whenM(UIO(!initialized.get())) {
+      val assertProperlyInitialized =
+        ZIO.whenM(UIO(!ThreadContext.getThreadContextMap.isInstanceOf[FiberAwareThreadContextMap])) {
+          ZIO.die {
+            new InitializationError(
+              s"""Could not initialize ZIO fiber aware MDC logging for Log4j 2:
+                 |  Please try starting the JVM with -D${SystemProperty.ThreadContextMap.key}=${SystemProperty.ThreadContextMap.value}
+                 |  or make sure that ${classOf[FiberAwareThreadContextMap].getSimpleName}#assertInitialized is executed *before* Log4j 2 has been initialized.
+                 |""".stripMargin)
+          }
+        }
+
       for {
+        _ <- UIO(System.setProperty(SystemProperty.ThreadContextMap.key, SystemProperty.ThreadContextMap.value))
+        _ <- assertProperlyInitialized
         fiberRef <- FiberRef.make(Map.empty[String, String])
         fiberLocal <- fiberRef.unsafeAsThreadLocal
         set <- UIO(initialized.compareAndSet(false, true))
         _ <- ZIO.when(set)(UIO(threadLocal = fiberLocal))
       } yield ()
     }
+  }
 }

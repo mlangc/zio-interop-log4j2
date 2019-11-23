@@ -53,9 +53,9 @@ object MdcLoggingTest extends DefaultRunnableSpec with LoggingSupport {
       .toManaged(exec => UIO(exec.shutdown()))
       .map(exec => Executor.fromExecutionContext(Int.MaxValue)(ExecutionContext.fromExecutorService(exec)))
 
-  private def setup: UIO[Unit] = UIO {
-    System.setProperty("log4j2.threadContextMap", classOf[FiberAwareThreadContextMap].getCanonicalName)
-    MDC.clear()
-    TestLog4j2Appender.reset()
-  } *> FiberAwareThreadContextMap.assertInitialized
+  private def setup: UIO[Unit] =
+    FiberAwareThreadContextMap.assertInitialized *> UIO {
+      MDC.clear()
+      TestLog4j2Appender.reset()
+    }
 }
