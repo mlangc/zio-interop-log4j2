@@ -12,5 +12,5 @@ to Maven Central is planned, as soon as `zio-1.0.0-RC18` is out.
 1. Integrate `com.github.mlangc.zio.interop.log4j2.FiberAwareThreadContextMap.assertInitialized` into your initialization code. Fiber aware MDC
    logging will not work properly without this call.
 1. Use `org.slf4j.MDC` as you would normally and observe that is now respects fiber boundaries.
-1. If you start getting annoyed by wrapping interactions with `MDC` in ZIO effects, take a look at (slf4zio)[https://github.com/mlangc/slf4zio]
-   which ships a convenience wrapper called `MDZIO`.
+1. If you start getting annoyed by wrapping interactions with `MDC` in ZIO effects, take a look at [slf4zio](https://github.com/mlangc/slf4zio)
+   which ships an `MDC` convenience wrapper for `ZIO` called `MDZIO`.
