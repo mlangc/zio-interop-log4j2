@@ -96,7 +96,8 @@ object FiberAwareThreadContextMap {
       for {
         _ <- UIO(System.setProperty(SystemProperty.ThreadContextMap.key, SystemProperty.ThreadContextMap.value))
         _ <- assertProperlyInitialized
-        fiberRef <- FiberRef.make(Map.empty[String, String])
+        combineContexts = (first: Map[String, String], last: Map[String, String]) => first ++ last
+        fiberRef <- FiberRef.make(Map.empty[String, String], combineContexts)
         fiberLocal <- fiberRef.unsafeAsThreadLocal
         set <- UIO(initialized.compareAndSet(false, true))
         _ <- ZIO.when(set)(UIO(threadLocal = fiberLocal))

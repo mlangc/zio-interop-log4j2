@@ -36,13 +36,14 @@ object MdcLoggingTest extends DefaultRunnableSpec with LoggingSupport {
           _ <- logger.infoIO("Test on parent fiber")
           _ <- fiber1.join
           _ <- logger.infoIO("Test on parent fiber after first join")
+          _ <- MDZIO.put("e", "4")
           _ <- fiber2.join
           _ <- logger.infoIO("Test on parent fiber after second join")
           events <- UIO(TestLog4j2Appender.events)
         } yield {
           assert(events.size, equalTo(7)) &&
             assert(events.last.getContextData.toMap.asScala, equalTo(Map("a" -> "1", "b" -> "2", "c" -> "3"))) &&
-            assert(events.head.getContextData.toMap.asScala, equalTo(Map("a" -> "1", "b" -> "2*", "c" -> "3")))
+            assert(events.head.getContextData.toMap.asScala, equalTo(Map("a" -> "1", "b" -> "2*", "c" -> "3", "e" -> "4")))
         }
       }
     }

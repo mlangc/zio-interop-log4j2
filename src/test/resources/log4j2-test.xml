@@ -2,7 +2,7 @@
 <Configuration status="INFO" packages="com.github.mlangc.zio.interop.log4j2">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss} a[%X{a}],b[%X{b}],c[%X{c}] %-5level %logger{36} - %msg%n" />
+            <PatternLayout pattern="%d{HH:mm:ss} a[%X{a}],b[%X{b}],c[%X{c}],e[%X{e}] %-5level %logger{36} - %msg%n" />
         </Console>
 
         <Test name="Test"/>
