@@ -132,7 +132,7 @@ libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % log4jVersion
 libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % log4jVersion
 
 libraryDependencies += "org.apache.logging.log4j" % "log4j-slf4j-impl" % log4jVersion % Test
-libraryDependencies += "com.github.mlangc" %% "slf4zio" % "0.3.0" % Test
+libraryDependencies += "com.github.mlangc" %% "slf4zio" % "0.5.0-SNAPSHOT" % Test
 
 libraryDependencies ++= Seq(
   compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
