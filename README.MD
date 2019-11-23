@@ -1,5 +1,5 @@
 # ZIO Interop Log4J2
-This library will provide fiber aware MDC logging for ZIO.
+This library will provide ZIO fiber aware MDC logging for Log4j 2.
 
 ## Disclaimer
 This library depends on ZIO APIs that are not yet available in `zio-1.0.0-RC17`. A first official release
