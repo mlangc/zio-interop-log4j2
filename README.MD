@@ -13,4 +13,4 @@ to Maven Central is planned, as soon as `zio-1.0.0-RC18` is out.
    logging will not work properly without this call.
 1. Use `org.slf4j.MDC` as you would normally and observe that it now respects fiber boundaries.
 1. If you start getting annoyed by wrapping interactions with `MDC` in ZIO effects, take a look at [slf4zio](https://github.com/mlangc/slf4zio)
-   which ships an `MDC` convenience wrapper for `ZIO` called `MDZIO`.
+   which ships an `MDC` convenience wrapper for ZIO called `MDZIO`.
