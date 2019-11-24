@@ -119,7 +119,7 @@ scalacOptions ++= {
 scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-warnings")
 
 val log4jVersion = "2.12.0"
-val silencerVersion = "1.4.3"
+val silencerVersion = "1.4.4"
 
 val zioVersion = "1.0.0-RC17+6-daa6ab98"
 libraryDependencies += "dev.zio" %% "zio" % zioVersion
