@@ -3,6 +3,7 @@ package com.github.mlangc.zio.interop.log4j2
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+import com.github.ghik.silencer.silent
 import com.github.mlangc.slf4zio.api._
 import org.slf4j.MDC
 import zio.Managed
@@ -17,6 +18,7 @@ import zio.test._
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext
 
+@silent("JavaConverters")
 object MdcLoggingTest extends DefaultRunnableSpec with LoggingSupport {
   def spec = suite("MdcLoggingTest")(
     testM("Make sure we can log using fiber aware MDC data") {

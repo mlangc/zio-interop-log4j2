@@ -1,5 +1,9 @@
 name := "zio-interop-log4j2"
-scalaVersion := "2.12.10"
+organization := "com.github.mlangc"
+dynverSonatypeSnapshots in ThisBuild := true
+
+scalaVersion := "2.13.1"
+crossScalaVersions := Seq("2.12.10", "2.13.1")
 
 val scala212Opts = Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
@@ -144,7 +148,6 @@ libraryDependencies ++= Seq(
 
 publishMavenStyle := true
 publishTo := sonatypePublishToBundle.value
-dynverSonatypeSnapshots := true
 
 licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 

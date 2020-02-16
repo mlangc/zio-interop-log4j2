@@ -3,6 +3,7 @@ package com.github.mlangc.zio.interop.log4j2
 import java.util
 import java.util.concurrent.atomic.AtomicBoolean
 
+import com.github.ghik.silencer.silent
 import org.apache.logging.log4j.ThreadContext
 import org.apache.logging.log4j.spi.ReadOnlyThreadContextMap
 import org.apache.logging.log4j.spi.ThreadContextMap
@@ -16,6 +17,7 @@ import zio.ZIO
 
 import scala.collection.JavaConverters._
 
+@silent("JavaConverters")
 class FiberAwareThreadContextMap extends ThreadContextMap with ReadOnlyThreadContextMap {
 
   import FiberAwareThreadContextMap.threadLocal
@@ -100,7 +102,7 @@ object FiberAwareThreadContextMap {
         fiberRef <- FiberRef.make(Map.empty[String, String], combineContexts)
         fiberLocal <- fiberRef.unsafeAsThreadLocal
         set <- UIO(initialized.compareAndSet(false, true))
-        _ <- ZIO.when(set)(UIO(threadLocal = fiberLocal))
+        _ <- ZIO.when(set)(UIO { threadLocal = fiberLocal })
       } yield ()
     }
   }
