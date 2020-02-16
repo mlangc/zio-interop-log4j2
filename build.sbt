@@ -1,5 +1,4 @@
 name := "zio-interop-log4j2"
-version := "0.1.0"
 scalaVersion := "2.12.10"
 
 val scala212Opts = Seq(
@@ -121,7 +120,11 @@ scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-wa
 val log4jVersion = "2.12.0"
 val silencerVersion = "1.4.4"
 
-val zioVersion = "1.0.0-RC17+6-daa6ab98"
+val zioVersion = "1.0.0-RC17+387-b8979ea4-SNAPSHOT"
+val slf4zioVersion = "0.4.0+17-0a3345d7-SNAPSHOT"
+
+resolvers += Resolver.sonatypeRepo("snapshots")
+
 libraryDependencies += "dev.zio" %% "zio" % zioVersion
 libraryDependencies += "dev.zio" %% "zio-test" % zioVersion % Test
 
@@ -132,9 +135,23 @@ libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % log4jVersion
 libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % log4jVersion
 
 libraryDependencies += "org.apache.logging.log4j" % "log4j-slf4j-impl" % log4jVersion % Test
-libraryDependencies += "com.github.mlangc" %% "slf4zio" % "0.5.0-SNAPSHOT" % Test
+libraryDependencies += "com.github.mlangc" %% "slf4zio" % slf4zioVersion % Test
 
 libraryDependencies ++= Seq(
   compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
   "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
+)
+
+publishMavenStyle := true
+publishTo := sonatypePublishToBundle.value
+dynverSonatypeSnapshots := true
+
+licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+
+import sbt.url
+import xerial.sbt.Sonatype._
+sonatypeProjectHosting := Some(GitHubHosting("mlangc", "zio-interop-log4j2", "m.langer798@gmail.com"))
+
+developers := List(
+  Developer(id="mlangc", name="Matthias Langer", email="m.langer798@gmail.com", url=url("https://mlangc.wordpress.com/"))
 )

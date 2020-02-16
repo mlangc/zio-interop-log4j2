@@ -7,7 +7,6 @@ import com.github.mlangc.slf4zio.api._
 import org.slf4j.MDC
 import zio.Managed
 import zio.UIO
-import zio.clock.Clock
 import zio.clock.sleep
 import zio.duration.Duration
 import zio.internal.Executor
@@ -32,7 +31,7 @@ object MdcLoggingTest extends DefaultRunnableSpec with LoggingSupport {
           fiber2 <- {
             MDZIO.put("b", "2*") *> logger.infoIO("Test on child fiber2")
             }.fork
-          _ <- sleep(Duration.apply(10, TimeUnit.MILLISECONDS)).provide(Clock.Live)
+          _ <- sleep(Duration.apply(10, TimeUnit.MILLISECONDS))
           _ <- logger.infoIO("Test on parent fiber")
           _ <- fiber1.join
           _ <- logger.infoIO("Test on parent fiber after first join")
@@ -41,13 +40,13 @@ object MdcLoggingTest extends DefaultRunnableSpec with LoggingSupport {
           _ <- logger.infoIO("Test on parent fiber after second join")
           events <- UIO(TestLog4j2Appender.events)
         } yield {
-          assert(events.size, equalTo(7)) &&
-            assert(events.last.getContextData.toMap.asScala, equalTo(Map("a" -> "1", "b" -> "2", "c" -> "3"))) &&
-            assert(events.head.getContextData.toMap.asScala, equalTo(Map("a" -> "1", "b" -> "2*", "c" -> "3", "e" -> "4")))
+          assert(events.size)(equalTo(7)) &&
+            assert(events.last.getContextData.toMap.asScala.toMap)(equalTo(Map("a" -> "1", "b" -> "2", "c" -> "3"))) &&
+            assert(events.head.getContextData.toMap.asScala.toMap)(equalTo(Map("a" -> "1", "b" -> "2*", "c" -> "3", "e" -> "4")))
         }
       }
     }
-  )
+  ).provideLayer(zio.ZEnv.live)
 
   private def newSingleThreadExecutor: Managed[Nothing, Executor] =
     UIO(Executors.newSingleThreadExecutor())
