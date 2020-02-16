@@ -1,4 +1,6 @@
 # ZIO Interop Log4J2
+[![Latest Snapshot](https://img.shields.io/nexus/s/com.github.mlangc/zio-interop-log4j2_2.13?label=latest-snapshot&server=https%3A%2F%2Foss.sonatype.org)](https://oss.sonatype.org/content/repositories/snapshots/com/github/mlangc/zio-interop-log4j2_2.13/)
+
 This library will provide ZIO fiber aware MDC logging for Log4j 2.
 
 ## Disclaimer
