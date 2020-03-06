@@ -3,7 +3,7 @@ organization := "com.github.mlangc"
 dynverSonatypeSnapshots in ThisBuild := true
 
 scalaVersion := "2.13.1"
-crossScalaVersions := Seq("2.12.10", "2.13.1")
+crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
 
 val scala212Opts = Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
@@ -124,8 +124,8 @@ scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-wa
 val log4jVersion = "2.12.0"
 val silencerVersion = "1.4.4"
 
-val zioVersion = "1.0.0-RC17+387-b8979ea4-SNAPSHOT"
-val slf4zioVersion = "0.4.0+17-0a3345d7-SNAPSHOT"
+val zioVersion = "1.0.0-RC18-1"
+val slf4zioVersion = "0.5.1"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 

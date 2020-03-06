@@ -25,10 +25,10 @@ class FiberAwareThreadContextMap extends ThreadContextMap with ReadOnlyThreadCon
   def clear(): Unit = threadLocal.remove()
   def containsKey(key: String): Boolean = threadLocal.get().contains(key)
   def get(key: String): String = threadLocal.get().get(key).orNull
-  def getCopy: util.Map[String, String] = new util.HashMap[String, String](mapAsJavaMap(threadLocal.get()))
+  def getCopy: util.Map[String, String] = new util.HashMap[String, String](threadLocal.get().asJava)
 
   def getImmutableMapOrNull: util.Map[String, String] = threadLocal.get() match {
-    case map if map.nonEmpty => mapAsJavaMap(map)
+    case map if map.nonEmpty => map.asJava
     case _ => null
   }
 
@@ -50,7 +50,7 @@ class FiberAwareThreadContextMap extends ThreadContextMap with ReadOnlyThreadCon
       def putAll(source: ReadOnlyStringMap): Unit = throw new UnsupportedOperationException()
       def putValue(key: String, value: Any): Unit = throw new UnsupportedOperationException()
       def remove(key: String): Unit = throw new UnsupportedOperationException()
-      def toMap: util.Map[String, String] = new util.HashMap[String, String](mapAsJavaMap(underlying))
+      def toMap: util.Map[String, String] = new util.HashMap[String, String](underlying.asJava)
       def containsKey(key: String): Boolean = underlying.contains(key)
 
       def forEach[V](action: BiConsumer[String, _ >: V]): Unit =
