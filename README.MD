@@ -1,11 +1,8 @@
 # ZIO Interop Log4J2
+[![Latest Release](https://img.shields.io/maven-central/v/com.github.mlangc/zio-interop-log4j2_2.13?color=green&label=latest-release)](https://oss.sonatype.org/content/repositories/releases/com/github/mlangc/zio-interop-log4j2_2.13)
 [![Latest Snapshot](https://img.shields.io/nexus/s/com.github.mlangc/zio-interop-log4j2_2.13?label=latest-snapshot&server=https%3A%2F%2Foss.sonatype.org)](https://oss.sonatype.org/content/repositories/snapshots/com/github/mlangc/zio-interop-log4j2_2.13/)
 
-This library will provide ZIO fiber aware MDC logging for Log4j 2.
-
-## Disclaimer
-This library depends on ZIO APIs that are not yet available in `zio-1.0.0-RC17`. A first official release
-to Maven Central is planned, as soon as `zio-1.0.0-RC18` is out.
+This library provides ZIO fiber aware MDC logging for Log4j 2.
 
 ## Usage
 1. Add `-Dlog4j2.threadContextMap=com.github.mlangc.zio.interop.log4j2.FiberAwareThreadContextMap` to your JVM startup parameters. If you can't,
