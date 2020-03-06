@@ -5,6 +5,7 @@
 This library provides ZIO fiber aware MDC logging for Log4j 2.
 
 ## Usage
+1. Add `libraryDependencies += "com.github.mlangc" %% "zio-interop-log4j2" % version` to your `build.sbt`
 1. Add `-Dlog4j2.threadContextMap=com.github.mlangc.zio.interop.log4j2.FiberAwareThreadContextMap` to your JVM startup parameters. If you can't,
   try to set the `log4j2.threadContextMap` system property programmatically as early as you can. The property must be set before Log4j2 is
   initialized.
