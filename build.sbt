@@ -124,8 +124,8 @@ scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-wa
 val log4jVersion = "2.13.1"
 val silencerVersion = "1.4.4"
 
-val zioVersion = "1.0.0-RC18-2"
-val slf4zioVersion = "0.6.0"
+val zioVersion = "1.0.0-RC19-2"
+val slf4zioVersion = "0.7.0"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
