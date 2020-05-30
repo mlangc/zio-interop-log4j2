@@ -2,8 +2,8 @@ name := "zio-interop-log4j2"
 organization := "com.github.mlangc"
 dynverSonatypeSnapshots in ThisBuild := true
 
-scalaVersion := "2.13.1"
-crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
+scalaVersion := "2.13.2"
+crossScalaVersions := Seq("2.11.12", "2.12.11", "2.13.2")
 
 val scala212Opts = Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
@@ -122,10 +122,10 @@ scalacOptions ++= {
 scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-warnings")
 
 val log4jVersion = "2.13.1"
-val silencerVersion = "1.4.4"
+val silencerVersion = "1.7.0"
 
-val zioVersion = "1.0.0-RC19-2"
-val slf4zioVersion = "0.7.0"
+val zioVersion = "1.0.0-RC20"
+val slf4zioVersion = zioVersion
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
