@@ -123,7 +123,7 @@ scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-wa
 val log4jVersion = "2.13.3"
 val silencerVersion = "1.7.1"
 
-val zioVersion = "1.0.0-RC21"
+val zioVersion = "1.0.0"
 val slf4zioVersion = zioVersion
 
 resolvers += Resolver.sonatypeRepo("snapshots")
