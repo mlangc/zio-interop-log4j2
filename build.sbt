@@ -2,8 +2,8 @@ name := "zio-interop-log4j2"
 organization := "com.github.mlangc"
 dynverSonatypeSnapshots in ThisBuild := true
 
-scalaVersion := "2.13.2"
-crossScalaVersions := Seq("2.11.12", "2.12.11", "2.13.2")
+scalaVersion := "2.13.3"
+crossScalaVersions := Seq("2.11.12", "2.12.12", "2.13.3")
 
 val scala212Opts = Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
@@ -90,7 +90,6 @@ val scala213Opts = Seq(
   "-Xlint:inaccessible", // Warn about inaccessible types in method signatures.
   "-Xlint:infer-any", // Warn when a type argument is inferred to be `Any`.
   "-Xlint:missing-interpolator", // A string literal appears to be missing an interpolator id.
-  "-Xlint:nullary-override", // Warn when non-nullary `def f()' overrides nullary `def f'.
   "-Xlint:nullary-unit", // Warn when nullary methods return Unit.
   "-Xlint:option-implicit", // Option.apply used implicit view.
   "-Xlint:package-object-classes", // Class or object defined in package object.
@@ -121,8 +120,8 @@ scalacOptions ++= {
 
 scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-warnings")
 
-val log4jVersion = "2.13.1"
-val silencerVersion = "1.7.0"
+val log4jVersion = "2.13.3"
+val silencerVersion = "1.7.1"
 
 val zioVersion = "1.0.0-RC21"
 val slf4zioVersion = zioVersion
