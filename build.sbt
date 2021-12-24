@@ -120,7 +120,7 @@ scalacOptions ++= {
 
 scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-warnings")
 
-val log4jVersion = "2.13.3"
+val log4jVersion = "2.17.0"
 val silencerVersion = "1.7.1"
 
 val zioVersion = "1.0.0"
